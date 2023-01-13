@@ -1,4 +1,4 @@
-# PIANO (dev-version)
+# PIANO
 
 > Piano will respond to you.
 
