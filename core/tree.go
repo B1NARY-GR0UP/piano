@@ -119,7 +119,7 @@ func (n *node) matchChild(fragment string) *node {
 	return nil
 }
 
-// matchChild for the param node
+// matchChildWithParam for the param node
 func (n *node) matchChildWithParam(fragment string, params *Params) *node {
 	for _, child := range n.children {
 		switch child.kind {

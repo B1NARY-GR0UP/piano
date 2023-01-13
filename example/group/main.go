@@ -10,7 +10,7 @@ import (
 
 func main() {
 	p := bin.Default()
-	auth := p.GROUP("/auth")
+	auth := p.Group("/auth")
 	auth.GET("/ping", func(ctx context.Context, pk *core.PianoKey) {
 		pk.String(http.StatusOK, "pong")
 	})

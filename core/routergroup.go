@@ -10,11 +10,11 @@ var _ IRouter = (*RouterGroup)(nil)
 
 type IRouter interface {
 	IRoute
-	GROUP(string, ...HandlerFunc) *RouterGroup
+	Group(string, ...HandlerFunc) *RouterGroup
 }
 
 type IRoute interface {
-	USE(...HandlerFunc)
+	Use(...HandlerFunc)
 
 	GET(string, ...HandlerFunc)
 	POST(string, ...HandlerFunc)
@@ -29,8 +29,8 @@ type RouterGroup struct {
 	isRoot   bool
 }
 
-// GROUP will new a route group
-func (rg *RouterGroup) GROUP(relativePath string, handlers ...HandlerFunc) *RouterGroup {
+// Group will new a route group
+func (rg *RouterGroup) Group(relativePath string, handlers ...HandlerFunc) *RouterGroup {
 	return &RouterGroup{
 		Handlers: rg.combineHandlers(handlers),
 		basePath: rg.calculateAbsolutePath(relativePath),
@@ -38,8 +38,8 @@ func (rg *RouterGroup) GROUP(relativePath string, handlers ...HandlerFunc) *Rout
 	}
 }
 
-// USE middleware or other custom handlers
-func (rg *RouterGroup) USE(middleware ...HandlerFunc) {
+// Use middleware or other custom handlers
+func (rg *RouterGroup) Use(middleware ...HandlerFunc) {
 	rg.Handlers = append(rg.Handlers, middleware...)
 }
 

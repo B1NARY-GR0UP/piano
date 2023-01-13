@@ -22,6 +22,6 @@ func New(opts ...core.Option) *Piano {
 // Default will new a PIANO with recovery middleware
 func Default(opts ...core.Option) *Piano {
 	p := New(opts...)
-	p.USE(recovery.New())
+	p.Use(recovery.New())
 	return p
 }
