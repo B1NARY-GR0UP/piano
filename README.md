@@ -8,6 +8,12 @@ PIANO is a simple and lightweight HTTP framework. More features will be supporte
 
 ## Quick Start
 
+### Install
+
+```shell
+go get github.com/B1NARY-GR0UP/piano
+```
+
 ### Hello World
 
 [example](example/helloworld/main.go)
