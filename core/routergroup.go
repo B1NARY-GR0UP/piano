@@ -11,11 +11,10 @@ var _ IRouter = (*RouterGroup)(nil)
 type IRouter interface {
 	IRoute
 	Group(string, ...HandlerFunc) *RouterGroup
+	Use(...HandlerFunc)
 }
 
 type IRoute interface {
-	Use(...HandlerFunc)
-
 	GET(string, ...HandlerFunc)
 	POST(string, ...HandlerFunc)
 	PUT(string, ...HandlerFunc)
