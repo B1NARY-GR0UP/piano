@@ -40,7 +40,7 @@ func NewEngine(opts *Options) *Engine {
 
 // Play Start the Server
 func (e *Engine) Play() {
-	core.Infof("PIANO server is listening on address %v", e.options.Addr)
+	core.Infof("[PIANO] PIANO server is listening on address %v", e.options.Addr)
 	err := http.ListenAndServe(e.options.Addr, e)
 	if err != nil {
 		panic("PIANO Server Start Failed")
@@ -88,7 +88,7 @@ func (e *Engine) addRoute(method, path string, handlers HandlersChain) {
 	if !isValid {
 		panic("please check your route")
 	}
-	core.Infof("Register route: [%v] %v", strings.ToUpper(method), path)
+	core.Infof("[PIANO] Register route: [%v] %v", strings.ToUpper(method), path)
 	methodTree, ok := e.forest.get(method)
 	// create a new method tree if no match in the forest
 	if !ok {
