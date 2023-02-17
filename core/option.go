@@ -4,9 +4,7 @@ const (
 	defaultAddr = ":7246"
 )
 
-type Option struct {
-	F func(o *Options)
-}
+type Option func(o *Options)
 
 type Options struct {
 	Addr string
@@ -23,13 +21,13 @@ func NewOptions(opts ...Option) *Options {
 
 func (o *Options) apply(opts ...Option) {
 	for _, opt := range opts {
-		opt.F(o)
+		opt(o)
 	}
 }
 
 // WithHostAddr used to define addr you prefer
 func WithHostAddr(addr string) Option {
-	return Option{F: func(o *Options) {
+	return func(o *Options) {
 		o.Addr = addr
-	}}
+	}
 }
