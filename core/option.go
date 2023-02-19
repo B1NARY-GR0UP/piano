@@ -15,20 +15,30 @@
 
 package core
 
+import "time"
+
 const (
-	defaultAddr = ":7246"
+	defaultAddr            = ":7246"
+	defaultShutdownTimeout = time.Second * 5
 )
+
+var defaultOptions = Options{
+	Addr:            defaultAddr,
+	ShutdownTimeout: defaultShutdownTimeout,
+}
 
 type Option func(o *Options)
 
 type Options struct {
-	Addr string
+	Addr            string
+	ShutdownTimeout time.Duration
 }
 
 // NewOptions for PIANO engine
 func NewOptions(opts ...Option) *Options {
 	options := &Options{
-		Addr: defaultAddr,
+		Addr:            defaultOptions.Addr,
+		ShutdownTimeout: defaultOptions.ShutdownTimeout,
 	}
 	options.apply(opts...)
 	return options
@@ -44,5 +54,11 @@ func (o *Options) apply(opts ...Option) {
 func WithHostAddr(addr string) Option {
 	return func(o *Options) {
 		o.Addr = addr
+	}
+}
+
+func WithShutdownTimeout(timeout time.Duration) Option {
+	return func(o *Options) {
+		o.ShutdownTimeout = timeout
 	}
 }

@@ -32,11 +32,11 @@ func validateRoute(method, path string, handlers HandlersChain) bool {
 		return false
 	}
 	if path[0] != '/' {
-		core.Info("[PIANO] path must start with '/'")
+		core.Info("[PIANO] Path must start with '/'")
 		return false
 	}
 	if len(handlers) < 1 {
-		core.Info("[PIANO] there must be at least one handler")
+		core.Info("[PIANO] There must be at least one handler")
 		return false
 	}
 	return true

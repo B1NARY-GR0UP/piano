@@ -17,9 +17,11 @@ package core
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strings"
 	"sync"
+	"sync/atomic"
 
 	"github.com/B1NARY-GR0UP/inquisitor/core"
 )
@@ -28,11 +30,33 @@ type Engine struct {
 	// RouterGroup is a composition of Engine so that Engine can use RouterGroup functions
 	RouterGroup
 
+	// basic
 	forest    MethodForest
 	options   *Options
 	ctxPool   sync.Pool
 	maxParams uint16
+	// initialized | running | shutdown | closed
+	status uint32
+
+	// hook
+	OnRun      []HookFuncWithErr
+	OnShutdown []HookFunc
+
+	// TODO: support transport
 }
+
+type (
+	HookFunc        func(ctx context.Context)
+	HookFuncWithErr func(ctx context.Context) error
+)
+
+const (
+	_ uint32 = iota
+	statusInitialized
+	statusRunning
+	statusShutdown
+	statusClosed
+)
 
 // NewEngine for PIANO
 func NewEngine(opts *Options) *Engine {
@@ -53,13 +77,50 @@ func NewEngine(opts *Options) *Engine {
 	return e
 }
 
-// Play Start the Server
-func (e *Engine) Play() {
-	core.Infof("[PIANO] PIANO server is listening on address %v", e.options.Addr)
-	err := http.ListenAndServe(e.options.Addr, e)
-	if err != nil {
-		panic("PIANO Server Start Failed")
+// Init PIANO engine
+func (e *Engine) Init() error {
+	if !atomic.CompareAndSwapUint32(&e.status, 0, statusInitialized) {
+		return fmt.Errorf("engine has been init already")
 	}
+	return nil
+}
+
+// Run Start the PIANO Engine
+func (e *Engine) Run() error {
+	if err := e.Init(); err != nil {
+		return err
+	}
+	if !atomic.CompareAndSwapUint32(&e.status, statusInitialized, statusRunning) {
+		return fmt.Errorf("engine is already running")
+	}
+	defer atomic.StoreUint32(&e.status, statusClosed)
+	if err := e.executeOnRunHooks(context.Background()); err != nil {
+		return err
+	}
+	core.Infof("[PIANO] Server is listening on address %v", e.options.Addr)
+	return http.ListenAndServe(e.options.Addr, e)
+}
+
+func (e *Engine) Shutdown(ctx context.Context) error {
+	if atomic.LoadUint32(&e.status) != statusRunning {
+		return fmt.Errorf("engine is not running")
+	}
+	if !atomic.CompareAndSwapUint32(&e.status, statusRunning, statusShutdown) {
+		return fmt.Errorf("engine shutdown error")
+	}
+	ch := make(chan struct{})
+	go e.executeOnShutdownHooks(ctx, ch)
+	defer func() {
+		select {
+		case <-ctx.Done():
+			core.Errorf("[PIANO] Execute shutdown hooks timeout: %v", ctx.Err())
+			return
+		case <-ch:
+			core.Info("[PIANO] Execute shutdown hooks done")
+			return
+		}
+	}()
+	return nil
 }
 
 // ServeHTTP core function, replace DefaultServeMux
@@ -71,6 +132,11 @@ func (e *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	pk.refresh()
 	e.handleRequest(context.Background(), pk)
 	e.ctxPool.Put(pk)
+}
+
+// Options return options field of current engine
+func (e *Engine) Options() *Options {
+	return e.options
 }
 
 // handleRequest will handle HTTP request
@@ -101,7 +167,7 @@ func (e *Engine) serveError(_ context.Context, pk *PianoKey) {
 func (e *Engine) addRoute(method, path string, handlers HandlersChain) {
 	isValid := validateRoute(method, path, handlers)
 	if !isValid {
-		panic("please check your route")
+		core.Warnf("[PIANO] Route %v is invalid", path)
 	}
 	core.Infof("[PIANO] Register route: [%v] %v", strings.ToUpper(method), path)
 	methodTree, ok := e.forest.get(method)
@@ -121,4 +187,26 @@ func (e *Engine) addRoute(method, path string, handlers HandlersChain) {
 
 func (e *Engine) allocateContext(maxParams uint16) *PianoKey {
 	return NewContext(maxParams)
+}
+
+func (e *Engine) executeOnRunHooks(ctx context.Context) error {
+	for _, h := range e.OnRun {
+		if err := h(ctx); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (e *Engine) executeOnShutdownHooks(ctx context.Context, ch chan struct{}) {
+	wg := sync.WaitGroup{}
+	for _, h := range e.OnShutdown {
+		wg.Add(1)
+		go func(hook HookFunc) {
+			defer wg.Done()
+			hook(ctx)
+		}(h)
+	}
+	wg.Wait()
+	ch <- struct{}{}
 }

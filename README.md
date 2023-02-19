@@ -16,23 +16,27 @@ go get github.com/B1NARY-GR0UP/piano
 
 ### Hello World
 
-[example](example/helloworld/main.go)
+[example](example/hello)
 
 ### Route
 
-[example](example/route/main.go)
+[example](example/route)
 
 ### Group
 
-[example](example/group/main.go)
+[example](example/group)
 
 ### Query
 
-[example](example/query/main.go)
+[example](example/query)
 
 ### Form
 
-[example](example/form/main.go)
+[example](example/form)
+
+### Hook
+
+[example](example/hook)
 
 You can also go through the code for more information.
 
