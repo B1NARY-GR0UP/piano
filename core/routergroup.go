@@ -17,6 +17,7 @@ package core
 
 import (
 	"net/http"
+	"regexp"
 	"strings"
 )
 
@@ -30,10 +31,15 @@ type IRouter interface {
 }
 
 type IRoute interface {
+	Handle(string, string, ...HandlerFunc)
+
 	GET(string, ...HandlerFunc)
 	POST(string, ...HandlerFunc)
 	PUT(string, ...HandlerFunc)
 	DELETE(string, ...HandlerFunc)
+	PATCH(string, ...HandlerFunc)
+	OPTIONS(string, ...HandlerFunc)
+	HEAD(string, ...HandlerFunc)
 }
 
 type RouterGroup struct {
@@ -57,6 +63,14 @@ func (rg *RouterGroup) Use(middleware ...HandlerFunc) {
 	rg.Handlers = append(rg.Handlers, middleware...)
 }
 
+// Handle is suggested to use for custom methods
+func (rg *RouterGroup) Handle(httpMethod, relativePath string, handlers ...HandlerFunc) {
+	if isMatch := regexp.MustCompile("^[A-Z]+$").MatchString(httpMethod); !isMatch {
+		panic("http method " + httpMethod + " is not valid")
+	}
+	rg.handle(httpMethod, relativePath, handlers)
+}
+
 // GET will handler HTTP GET request
 func (rg *RouterGroup) GET(relativePath string, handlers ...HandlerFunc) {
 	rg.handle(http.MethodGet, relativePath, handlers)
@@ -75,6 +89,21 @@ func (rg *RouterGroup) PUT(relativePath string, handlers ...HandlerFunc) {
 // DELETE will handler HTTP DELETE request
 func (rg *RouterGroup) DELETE(relativePath string, handlers ...HandlerFunc) {
 	rg.handle(http.MethodDelete, relativePath, handlers)
+}
+
+// PATCH will handler HTTP PATCH request
+func (rg *RouterGroup) PATCH(relativePath string, handlers ...HandlerFunc) {
+	rg.handle(http.MethodPatch, relativePath, handlers)
+}
+
+// OPTIONS will handler HTTP OPTIONS request
+func (rg *RouterGroup) OPTIONS(relativePath string, handlers ...HandlerFunc) {
+	rg.handle(http.MethodOptions, relativePath, handlers)
+}
+
+// HEAD will handler HTTP HEAD request
+func (rg *RouterGroup) HEAD(relativePath string, handlers ...HandlerFunc) {
+	rg.handle(http.MethodHead, relativePath, handlers)
 }
 
 // handle will handle HTTP request
