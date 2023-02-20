@@ -28,15 +28,15 @@ type M map[string]any
 // validateRoute return true if the route is valid
 func validateRoute(method, path string, handlers HandlersChain) bool {
 	if method == "" {
-		core.Info("[PIANO] HTTP method can not be empty")
+		core.Info("---PIANO--- HTTP method can not be empty")
 		return false
 	}
 	if path[0] != '/' {
-		core.Info("[PIANO] Path must start with '/'")
+		core.Info("---PIANO--- Path must start with '/'")
 		return false
 	}
 	if len(handlers) < 1 {
-		core.Info("[PIANO] There must be at least one handler")
+		core.Info("---PIANO--- There must be at least one handler")
 		return false
 	}
 	return true

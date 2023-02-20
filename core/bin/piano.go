@@ -70,7 +70,7 @@ func (p *Piano) Play() {
 				return errors.New(sig.String())
 			case syscall.SIGHUP, syscall.SIGINT:
 				// graceful shutdown
-				log.Infof("[PIANO] Receive signal: %v", sig)
+				log.Infof("---PIANO--- Receive signal: %v", sig)
 				return nil
 			}
 		case err := <-errCh:
@@ -79,13 +79,13 @@ func (p *Piano) Play() {
 		return nil
 	}
 	if err := waitSignal(errCh); err != nil {
-		log.Errorf("[PIANO] Receive close signal error: %v", err)
+		log.Errorf("---PIANO--- Receive close signal error: %v", err)
 		return
 	}
-	log.Infof("[PIANO] Begin graceful shutdown, wait up to %d seconds", p.Options().ShutdownTimeout/time.Second)
+	log.Infof("---PIANO--- Begin graceful shutdown, wait up to %d seconds", p.Options().ShutdownTimeout/time.Second)
 	ctx, cancel := context.WithTimeout(context.Background(), p.Options().ShutdownTimeout)
 	defer cancel()
 	if err := p.Shutdown(ctx); err != nil {
-		log.Errorf("[PIANO] Shutdown err: %v", err)
+		log.Errorf("---PIANO--- Shutdown err: %v", err)
 	}
 }

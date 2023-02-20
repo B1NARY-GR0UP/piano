@@ -32,7 +32,7 @@ type (
 )
 
 func defaultRecoveryHandler(_ context.Context, pk *core.PianoKey, err any, info string) {
-	log.Errorf("[PIANO] RECOVERY Err: %v Stack: %v", err, info)
+	log.Errorf("---PIANO--- RECOVERY Err: %v Stack: %v", err, info)
 	//pk.BreakWithStatus(http.StatusInternalServerError)
 }
 

@@ -97,7 +97,7 @@ func (e *Engine) Run() error {
 	if err := e.executeOnRunHooks(context.Background()); err != nil {
 		return err
 	}
-	core.Infof("[PIANO] Server is listening on address %v", e.options.Addr)
+	core.Infof("---PIANO--- Server is listening on address %v", e.options.Addr)
 	return http.ListenAndServe(e.options.Addr, e)
 }
 
@@ -113,10 +113,10 @@ func (e *Engine) Shutdown(ctx context.Context) error {
 	defer func() {
 		select {
 		case <-ctx.Done():
-			core.Errorf("[PIANO] Execute shutdown hooks timeout: %v", ctx.Err())
+			core.Errorf("---PIANO--- Execute shutdown hooks timeout: %v", ctx.Err())
 			return
 		case <-ch:
-			core.Info("[PIANO] Execute shutdown hooks done")
+			core.Info("---PIANO--- Execute shutdown hooks done")
 			return
 		}
 	}()
@@ -167,9 +167,9 @@ func (e *Engine) serveError(_ context.Context, pk *PianoKey) {
 func (e *Engine) addRoute(method, path string, handlers HandlersChain) {
 	isValid := validateRoute(method, path, handlers)
 	if !isValid {
-		core.Warnf("[PIANO] Route %v is invalid", path)
+		core.Warnf("---PIANO--- Route %v is invalid", path)
 	}
-	core.Infof("[PIANO] Register route: [%v] %v", strings.ToUpper(method), path)
+	core.Infof("---PIANO--- Register route: [%v] %v", strings.ToUpper(method), path)
 	methodTree, ok := e.forest.get(method)
 	// create a new method tree if no match in the forest
 	if !ok {
