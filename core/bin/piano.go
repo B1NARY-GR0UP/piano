@@ -25,7 +25,7 @@ import (
 
 	log "github.com/B1NARY-GR0UP/inquisitor/core"
 	"github.com/B1NARY-GR0UP/piano/core"
-	"github.com/B1NARY-GR0UP/piano/middleware/recovery"
+	"github.com/B1NARY-GR0UP/piano/middlewares/recovery"
 )
 
 // Piano will respond to you.

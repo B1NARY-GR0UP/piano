@@ -2,7 +2,7 @@
 
 > Piano will respond to you.
 
-![piano](image/piano.png)
+![piano](images/piano.png)
 
 PIANO is a simple and lightweight HTTP framework. More features will be supported gradually.
 
@@ -16,27 +16,27 @@ go get github.com/B1NARY-GR0UP/piano
 
 ### Hello World
 
-[example](example/hello)
+[example](examples/hello)
 
 ### Route
 
-[example](example/route)
+[example](examples/route)
 
 ### Group
 
-[example](example/group)
+[example](examples/group)
 
 ### Query
 
-[example](example/query)
+[example](examples/query)
 
 ### Form
 
-[example](example/form)
+[example](examples/form)
 
 ### Hook
 
-[example](example/hook)
+[example](examples/hook)
 
 You can also go through the code for more information.
 

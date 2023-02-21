@@ -58,7 +58,7 @@ func (rg *RouterGroup) Group(relativePath string, handlers ...HandlerFunc) *Rout
 	}
 }
 
-// Use middleware or other custom handlers
+// Use middlewares or other custom handlers
 func (rg *RouterGroup) Use(middleware ...HandlerFunc) {
 	rg.Handlers = append(rg.Handlers, middleware...)
 }
