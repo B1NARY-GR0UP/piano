@@ -14,7 +14,7 @@ go get github.com/B1NARY-GR0UP/piano
 
 ## Quick Start
 
-### Hello World
+### Hello
 
 [example](examples/hello)
 
