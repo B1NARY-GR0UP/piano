@@ -134,6 +134,10 @@ func (e *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	e.ctxPool.Put(pk)
 }
 
+func (e *Engine) IsRunning() bool {
+	return atomic.LoadUint32(&e.status) == statusRunning
+}
+
 // Options return options field of current engine
 func (e *Engine) Options() *Options {
 	return e.options
