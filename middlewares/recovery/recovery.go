@@ -18,12 +18,12 @@ package recovery
 import (
 	"context"
 
-	"github.com/B1NARY-GR0UP/piano/core"
+	"github.com/B1NARY-GR0UP/piano/core/server"
 )
 
-func New(opts ...Option) core.HandlerFunc {
+func New(opts ...Option) server.HandlerFunc {
 	cfg := newOptions(opts...)
-	return func(ctx context.Context, pk *core.PianoKey) {
+	return func(ctx context.Context, pk *server.PianoKey) {
 		defer func() {
 			if err := recover(); err != nil {
 				s := stack(3)

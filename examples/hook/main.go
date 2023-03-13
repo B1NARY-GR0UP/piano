@@ -20,28 +20,28 @@ import (
 	"net/http"
 	"time"
 
-	log "github.com/B1NARY-GR0UP/inquisitor/core"
-	"github.com/B1NARY-GR0UP/piano/core"
-	"github.com/B1NARY-GR0UP/piano/core/bin"
+	"github.com/B1NARY-GR0UP/inquisitor/core"
+	"github.com/B1NARY-GR0UP/piano/core/server"
+	"github.com/B1NARY-GR0UP/piano/core/server/bin"
 )
 
 func main() {
-	p := bin.Default(core.WithShutdownTimeout(time.Second * 3))
+	p := bin.Default(server.WithShutdownTimeout(time.Second * 3))
 	p.OnRun = append(p.OnRun, func(ctx context.Context) error {
-		log.Info("hello")
+		core.Info("hello")
 		return nil
 	})
 	p.OnRun = append(p.OnRun, func(ctx context.Context) error {
-		log.Info("world")
+		core.Info("world")
 		return nil
 	})
 	p.OnShutdown = append(p.OnShutdown, func(ctx context.Context) {
-		log.Info("binary")
+		core.Info("binary")
 	})
 	p.OnShutdown = append(p.OnShutdown, func(ctx context.Context) {
-		log.Info("piano")
+		core.Info("piano")
 	})
-	p.GET("/ping", func(ctx context.Context, pk *core.PianoKey) {
+	p.GET("/ping", func(ctx context.Context, pk *server.PianoKey) {
 		pk.String(http.StatusOK, "pong")
 	})
 	p.Play()

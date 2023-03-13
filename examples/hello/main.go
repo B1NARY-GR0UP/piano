@@ -19,13 +19,13 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/B1NARY-GR0UP/piano/core"
-	"github.com/B1NARY-GR0UP/piano/core/bin"
+	"github.com/B1NARY-GR0UP/piano/core/server"
+	"github.com/B1NARY-GR0UP/piano/core/server/bin"
 )
 
 func main() {
 	p := bin.Default()
-	p.GET("/hello", func(ctx context.Context, pk *core.PianoKey) {
+	p.GET("/hello", func(ctx context.Context, pk *server.PianoKey) {
 		pk.String(http.StatusOK, "piano")
 	})
 	p.Play()

@@ -19,14 +19,14 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/B1NARY-GR0UP/piano/core"
-	"github.com/B1NARY-GR0UP/piano/core/bin"
+	"github.com/B1NARY-GR0UP/piano/core/server"
+	"github.com/B1NARY-GR0UP/piano/core/server/bin"
 )
 
 func main() {
 	p := bin.Default()
-	p.GET("/query", func(ctx context.Context, pk *core.PianoKey) {
-		pk.JSON(http.StatusOK, core.M{
+	p.GET("/query", func(ctx context.Context, pk *server.PianoKey) {
+		pk.JSON(http.StatusOK, server.M{
 			"username": pk.Query("username"),
 		})
 	})

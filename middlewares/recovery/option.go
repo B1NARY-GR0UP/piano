@@ -17,12 +17,13 @@ package recovery
 
 import (
 	"context"
-	log "github.com/B1NARY-GR0UP/inquisitor/core"
-	"github.com/B1NARY-GR0UP/piano/core"
+
+	"github.com/B1NARY-GR0UP/inquisitor/core"
+	"github.com/B1NARY-GR0UP/piano/core/server"
 )
 
 type (
-	RecoveryHandler func(ctx context.Context, pk *core.PianoKey, err any, info string)
+	RecoveryHandler func(ctx context.Context, pk *server.PianoKey, err any, info string)
 
 	Option func(o *Options)
 
@@ -31,9 +32,9 @@ type (
 	}
 )
 
-func defaultRecoveryHandler(_ context.Context, pk *core.PianoKey, err any, info string) {
-	log.Errorf("---PIANO--- RECOVERY Err: %v Stack: %v", err, info)
-	//pk.BreakWithStatus(http.StatusInternalServerError)
+func defaultRecoveryHandler(_ context.Context, pk *server.PianoKey, err any, info string) {
+	core.Errorf("---PIANO--- RECOVERY Err: %v Stack: %v", err, info)
+	// pk.BreakWithStatus(http.StatusInternalServerError)
 }
 
 func newOptions(opts ...Option) *Options {

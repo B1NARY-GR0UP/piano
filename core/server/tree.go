@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-package core
+package server
 
 import (
 	"fmt"

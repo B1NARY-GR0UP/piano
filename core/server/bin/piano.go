@@ -23,27 +23,27 @@ import (
 	"syscall"
 	"time"
 
-	log "github.com/B1NARY-GR0UP/inquisitor/core"
-	"github.com/B1NARY-GR0UP/piano/core"
+	"github.com/B1NARY-GR0UP/inquisitor/core"
+	"github.com/B1NARY-GR0UP/piano/core/server"
 	"github.com/B1NARY-GR0UP/piano/middlewares/recovery"
 )
 
 // Piano will respond to you.
 type Piano struct {
-	*core.Engine
+	*server.Engine
 }
 
 // New a pure PIANO
-func New(opts ...core.Option) *Piano {
-	options := core.NewOptions(opts...)
+func New(opts ...server.Option) *Piano {
+	options := server.NewOptions(opts...)
 	p := &Piano{
-		Engine: core.NewEngine(options),
+		Engine: server.NewEngine(options),
 	}
 	return p
 }
 
 // Default will new a PIANO with recovery middleware
-func Default(opts ...core.Option) *Piano {
+func Default(opts ...server.Option) *Piano {
 	p := New(opts...)
 	p.Use(recovery.New())
 	return p
@@ -70,7 +70,7 @@ func (p *Piano) Play() {
 				return errors.New(sig.String())
 			case syscall.SIGHUP, syscall.SIGINT:
 				// graceful shutdown
-				log.Infof("---PIANO--- Receive signal: %v", sig)
+				core.Infof("---PIANO--- Receive signal: %v", sig)
 				return nil
 			}
 		case err := <-errCh:
@@ -79,13 +79,13 @@ func (p *Piano) Play() {
 		return nil
 	}
 	if err := waitSignal(errCh); err != nil {
-		log.Errorf("---PIANO--- Receive close signal error: %v", err)
+		core.Errorf("---PIANO--- Receive close signal error: %v", err)
 		return
 	}
-	log.Infof("---PIANO--- Begin graceful shutdown, wait up to %d seconds", p.Options().ShutdownTimeout/time.Second)
+	core.Infof("---PIANO--- Begin graceful shutdown, wait up to %d seconds", p.Options().ShutdownTimeout/time.Second)
 	ctx, cancel := context.WithTimeout(context.Background(), p.Options().ShutdownTimeout)
 	defer cancel()
 	if err := p.Shutdown(ctx); err != nil {
-		log.Errorf("---PIANO--- Shutdown err: %v", err)
+		core.Errorf("---PIANO--- Shutdown err: %v", err)
 	}
 }
