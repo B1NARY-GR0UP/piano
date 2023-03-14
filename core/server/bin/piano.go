@@ -17,7 +17,6 @@ package bin
 
 import (
 	"context"
-	"errors"
 	"os"
 	"os/signal"
 	"syscall"
@@ -26,6 +25,7 @@ import (
 	"github.com/B1NARY-GR0UP/inquisitor/core"
 	"github.com/B1NARY-GR0UP/piano/core/server"
 	"github.com/B1NARY-GR0UP/piano/middlewares/recovery"
+	"github.com/B1NARY-GR0UP/piano/pkg/common/errors"
 )
 
 // Piano will respond to you.
@@ -67,7 +67,7 @@ func (p *Piano) Play() {
 			switch sig {
 			case syscall.SIGTERM:
 				// force exit
-				return errors.New(sig.String())
+				return errors.NewPublic(sig.String())
 			case syscall.SIGHUP, syscall.SIGINT:
 				// graceful shutdown
 				core.Infof("---PIANO--- Receive signal: %v", sig)

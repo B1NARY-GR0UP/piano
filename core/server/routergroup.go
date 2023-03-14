@@ -32,6 +32,7 @@ type IRouter interface {
 
 type IRoute interface {
 	Handle(string, string, ...HandlerFunc)
+
 	GET(string, ...HandlerFunc)
 	POST(string, ...HandlerFunc)
 	PUT(string, ...HandlerFunc)

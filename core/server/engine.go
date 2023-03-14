@@ -17,13 +17,13 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strings"
 	"sync"
 	"sync/atomic"
 
 	"github.com/B1NARY-GR0UP/inquisitor/core"
+	"github.com/B1NARY-GR0UP/piano/pkg/common/errors"
 )
 
 type Engine struct {
@@ -58,6 +58,13 @@ const (
 	statusClosed
 )
 
+var (
+	errAlreadyInit    = errors.NewPrivate("engine has been init already")
+	errAlreadyRunning = errors.NewPrivate("engine is already running")
+	errNotRunning     = errors.NewPrivate("engine is not running")
+	errShutdown       = errors.NewPrivate("engine shutdown error")
+)
+
 // NewEngine for PIANO
 func NewEngine(opts *Options) *Engine {
 	e := &Engine{
@@ -80,7 +87,7 @@ func NewEngine(opts *Options) *Engine {
 // Init PIANO engine
 func (e *Engine) Init() error {
 	if !atomic.CompareAndSwapUint32(&e.status, 0, statusInitialized) {
-		return fmt.Errorf("engine has been init already")
+		return errAlreadyInit
 	}
 	return nil
 }
@@ -91,7 +98,7 @@ func (e *Engine) Run() error {
 		return err
 	}
 	if !atomic.CompareAndSwapUint32(&e.status, statusInitialized, statusRunning) {
-		return fmt.Errorf("engine is already running")
+		return errAlreadyRunning
 	}
 	defer atomic.StoreUint32(&e.status, statusClosed)
 	if err := e.executeOnRunHooks(context.Background()); err != nil {
@@ -103,10 +110,10 @@ func (e *Engine) Run() error {
 
 func (e *Engine) Shutdown(ctx context.Context) error {
 	if atomic.LoadUint32(&e.status) != statusRunning {
-		return fmt.Errorf("engine is not running")
+		return errNotRunning
 	}
 	if !atomic.CompareAndSwapUint32(&e.status, statusRunning, statusShutdown) {
-		return fmt.Errorf("engine shutdown error")
+		return errShutdown
 	}
 	ch := make(chan struct{})
 	go e.executeOnShutdownHooks(ctx, ch)
