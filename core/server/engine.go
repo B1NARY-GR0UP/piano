@@ -17,6 +17,7 @@ package server
 
 import (
 	"context"
+	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 	"net/http"
 	"strings"
 	"sync"
@@ -168,9 +169,10 @@ func (e *Engine) handleRequest(ctx context.Context, pk *PianoKey) {
 	pk.Next(ctx)
 }
 
+// TODO: optimize needed
 func (e *Engine) serveError(_ context.Context, pk *PianoKey) {
 	pk.handlers = append(pk.handlers, func(ctx context.Context, pk *PianoKey) {
-		pk.String(http.StatusNotFound, "404 Page Not Found")
+		pk.String(consts.StatusNotFound, "404 Page Not Found")
 	})
 }
 

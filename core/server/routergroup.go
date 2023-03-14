@@ -16,9 +16,10 @@
 package server
 
 import (
-	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 )
 
 // RouterGroup must implement IRouter
@@ -73,37 +74,37 @@ func (rg *RouterGroup) Handle(httpMethod, relativePath string, handlers ...Handl
 
 // GET will handler HTTP GET request
 func (rg *RouterGroup) GET(relativePath string, handlers ...HandlerFunc) {
-	rg.handle(http.MethodGet, relativePath, handlers)
+	rg.handle(consts.MethodGet, relativePath, handlers)
 }
 
 // POST will handler HTTP POST request
 func (rg *RouterGroup) POST(relativePath string, handlers ...HandlerFunc) {
-	rg.handle(http.MethodPost, relativePath, handlers)
+	rg.handle(consts.MethodPost, relativePath, handlers)
 }
 
 // PUT will handler HTTP PUT request
 func (rg *RouterGroup) PUT(relativePath string, handlers ...HandlerFunc) {
-	rg.handle(http.MethodPut, relativePath, handlers)
+	rg.handle(consts.MethodPut, relativePath, handlers)
 }
 
 // DELETE will handler HTTP DELETE request
 func (rg *RouterGroup) DELETE(relativePath string, handlers ...HandlerFunc) {
-	rg.handle(http.MethodDelete, relativePath, handlers)
+	rg.handle(consts.MethodDelete, relativePath, handlers)
 }
 
 // PATCH will handler HTTP PATCH request
 func (rg *RouterGroup) PATCH(relativePath string, handlers ...HandlerFunc) {
-	rg.handle(http.MethodPatch, relativePath, handlers)
+	rg.handle(consts.MethodPatch, relativePath, handlers)
 }
 
 // OPTIONS will handler HTTP OPTIONS request
 func (rg *RouterGroup) OPTIONS(relativePath string, handlers ...HandlerFunc) {
-	rg.handle(http.MethodOptions, relativePath, handlers)
+	rg.handle(consts.MethodOptions, relativePath, handlers)
 }
 
 // HEAD will handler HTTP HEAD request
 func (rg *RouterGroup) HEAD(relativePath string, handlers ...HandlerFunc) {
-	rg.handle(http.MethodHead, relativePath, handlers)
+	rg.handle(consts.MethodHead, relativePath, handlers)
 }
 
 // handle will handle HTTP request

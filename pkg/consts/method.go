@@ -13,24 +13,16 @@
 // limitations under the License.
 //
 
-package main
+package consts
 
-import (
-	"context"
-
-	"github.com/B1NARY-GR0UP/piano/core/server"
-	"github.com/B1NARY-GR0UP/piano/core/server/bin"
-	"github.com/B1NARY-GR0UP/piano/pkg/consts"
+const (
+	MethodGet     = "GET"
+	MethodHead    = "HEAD"
+	MethodPost    = "POST"
+	MethodPut     = "PUT"
+	MethodPatch   = "PATCH" // RFC 5789
+	MethodDelete  = "DELETE"
+	MethodConnect = "CONNECT" // not support in routergroup
+	MethodOptions = "OPTIONS"
+	MethodTrace   = "TRACE" // not support in routergroup
 )
-
-func main() {
-	p := bin.Default()
-	auth := p.Group("/auth")
-	auth.GET("/ping", func(ctx context.Context, pk *server.PianoKey) {
-		pk.String(consts.StatusOK, "pong")
-	})
-	auth.GET("/binary", func(ctx context.Context, pk *server.PianoKey) {
-		pk.String(consts.StatusOK, "lorain")
-	})
-	p.Play()
-}

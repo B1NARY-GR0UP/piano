@@ -17,12 +17,12 @@ package main
 
 import (
 	"context"
-	"net/http"
 	"time"
 
 	"github.com/B1NARY-GR0UP/inquisitor/core"
 	"github.com/B1NARY-GR0UP/piano/core/server"
 	"github.com/B1NARY-GR0UP/piano/core/server/bin"
+	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 )
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 		core.Info("piano")
 	})
 	p.GET("/ping", func(ctx context.Context, pk *server.PianoKey) {
-		pk.String(http.StatusOK, "pong")
+		pk.String(consts.StatusOK, "pong")
 	})
 	p.Play()
 }

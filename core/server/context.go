@@ -22,6 +22,8 @@ import (
 	"math"
 	"net/http"
 	"sync"
+
+	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 )
 
 // HandlerFunc is the core type of PIANO
@@ -112,7 +114,7 @@ func (pk *PianoKey) BreakWithStatus(code int) {
 
 func (pk *PianoKey) BreakWithMessage(code int, msg string) {
 	pk.SetStatusCode(code)
-	pk.SetHeader("Content-Type", "text/plain; charset=utf-8")
+	pk.SetHeader(consts.HeaderContentType, "text/plain; charset=utf-8")
 	_, _ = fmt.Fprintf(pk.Writer, msg)
 	pk.Break()
 }
@@ -172,7 +174,7 @@ func (pk *PianoKey) SetHeader(key, value string) {
 }
 
 func (pk *PianoKey) writeJSON(data any) error {
-	pk.SetHeader("Content-Type", "application/json; charset=utf-8")
+	pk.SetHeader(consts.HeaderContentType, "application/json; charset=utf-8")
 	jsonBytes, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -194,7 +196,7 @@ func (pk *PianoKey) JSON(code int, data any) {
 }
 
 func (pk *PianoKey) writeString(format string, data ...any) error {
-	pk.SetHeader("Content-Type", "text/plain; charset=utf-8")
+	pk.SetHeader(consts.HeaderContentType, "text/plain; charset=utf-8")
 	// Fprintf will pass the data to the writer
 	_, err := fmt.Fprintf(pk.Writer, format, data...)
 	return err
