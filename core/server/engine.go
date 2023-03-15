@@ -17,14 +17,15 @@ package server
 
 import (
 	"context"
-	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 	"net/http"
 	"strings"
 	"sync"
 	"sync/atomic"
 
 	"github.com/B1NARY-GR0UP/inquisitor/core"
+	"github.com/B1NARY-GR0UP/piano/pkg/bytesconv"
 	"github.com/B1NARY-GR0UP/piano/pkg/common/errors"
+	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 )
 
 type Engine struct {
@@ -155,7 +156,7 @@ func (e *Engine) Options() *Options {
 func (e *Engine) handleRequest(ctx context.Context, pk *PianoKey) {
 	matchedTree, ok := e.forest.get(pk.Request.Method)
 	if !ok {
-		e.serveError(ctx, pk)
+		e.serveError(ctx, pk, consts.StatusMethodNotAllowed, bytesconv.S2B(consts.BodyMethodNotAllowed))
 	}
 	path := pk.Request.URL.Path
 	validatePath(path)
@@ -163,17 +164,17 @@ func (e *Engine) handleRequest(ctx context.Context, pk *PianoKey) {
 	params := &pk.Params
 	matchedNode := matchedTree.search(path, params)
 	if matchedNode == nil {
-		e.serveError(ctx, pk)
+		e.serveError(ctx, pk, consts.StatusNotFound, bytesconv.S2B(consts.BodyNotFound))
 	}
 	pk.SetHandlers(matchedNode.handlers)
 	pk.Next(ctx)
 }
 
-// TODO: optimize needed
-func (e *Engine) serveError(_ context.Context, pk *PianoKey) {
-	pk.handlers = append(pk.handlers, func(ctx context.Context, pk *PianoKey) {
-		pk.String(consts.StatusNotFound, "404 Page Not Found")
-	})
+func (e *Engine) serveError(ctx context.Context, pk *PianoKey, code int, message []byte) {
+	pk.SetStatusCode(code)
+	_, _ = pk.Writer.Write(message)
+	pk.Next(ctx)
+	// TODO: optimize after pack protocol
 }
 
 // addRoute will add path into trie tree

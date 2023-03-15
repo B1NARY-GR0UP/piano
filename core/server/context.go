@@ -65,8 +65,9 @@ func (pk *PianoKey) SetHandlers(handlers HandlersChain) {
 // Next executes the handlers on the chain
 func (pk *PianoKey) Next(ctx context.Context) {
 	pk.index++
-	for i := pk.index; i < len(pk.handlers); i++ {
-		pk.handlers[i](ctx, pk)
+	for pk.index < len(pk.handlers) {
+		pk.handlers[pk.index](ctx, pk)
+		pk.index++
 	}
 }
 
