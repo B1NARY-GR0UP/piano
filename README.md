@@ -26,6 +26,10 @@ go get github.com/B1NARY-GR0UP/piano
 
 [example](examples/group)
 
+### Middleware
+
+[example](examples/middleware)
+
 ### Query
 
 [example](examples/query)
