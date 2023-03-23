@@ -17,5 +17,5 @@ package bin
 
 const (
 	Name    = "PIANO"
-	Version = "v0.1.3"
+	Version = "v0.1.4"
 )
