@@ -4,7 +4,7 @@
 
 > Piano will respond to you.
 
-![piano](images/piano.png)
+![piano](images/PIANO.png)
 
 PIANO is a simple and lightweight HTTP framework. More features will be supported gradually.
 
@@ -249,6 +249,10 @@ You can also go through the code for more information.
 
 PIANO is distributed under the [Apache License 2.0](./LICENSE). The licenses of third party dependencies of PIANO are explained [here](./licenses).
 
-## END
+## ECOLOGY
 
-PIANO is a subproject of the [BINARY WEB ECOLOGY](https://github.com/B1NARY-GR0UP)
+<p align="center">
+<img src="https://github.com/justlorain/justlorain/blob/main/images/BINARY-WEB-ECO.png" width="300"/>
+<br/>
+PIANO is a subproject of the <a href="https://github.com/B1NARY-GR0UP">BINARY WEB ECOLOGY</a>.
+</p>
