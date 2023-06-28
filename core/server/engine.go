@@ -24,12 +24,14 @@ import (
 
 	"github.com/B1NARY-GR0UP/inquisitor/core"
 	"github.com/B1NARY-GR0UP/piano/pkg/bytesconv"
-	"github.com/B1NARY-GR0UP/piano/pkg/common/errors"
 	"github.com/B1NARY-GR0UP/piano/pkg/consts"
+	"github.com/B1NARY-GR0UP/piano/pkg/errors"
+	"github.com/B1NARY-GR0UP/piano/pkg/nocopy"
 )
 
 type Engine struct {
-	// RouterGroup is a composition of Engine so that Engine can use RouterGroup functions
+	_ nocopy.NoCopy
+
 	RouterGroup
 
 	// basic

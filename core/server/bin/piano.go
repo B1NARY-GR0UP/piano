@@ -25,7 +25,7 @@ import (
 	"github.com/B1NARY-GR0UP/inquisitor/core"
 	"github.com/B1NARY-GR0UP/piano/core/server"
 	"github.com/B1NARY-GR0UP/piano/middlewares/recovery"
-	"github.com/B1NARY-GR0UP/piano/pkg/common/errors"
+	"github.com/B1NARY-GR0UP/piano/pkg/errors"
 )
 
 // Piano will respond to you.
