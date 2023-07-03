@@ -19,7 +19,7 @@ import "time"
 
 const (
 	defaultAddr            = ":7246"
-	defaultShutdownTimeout = time.Second * 5
+	defaultShutdownTimeout = 5 * time.Second
 )
 
 var defaultOptions = Options{

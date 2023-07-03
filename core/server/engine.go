@@ -81,7 +81,6 @@ func NewEngine(opts *Options) *Engine {
 		options: opts,
 	}
 	e.RouterGroup.engine = e
-	// TODO: fix maxParam (assigned?)
 	e.ctxPool.New = func() any {
 		return e.allocateContext(e.maxParams)
 	}

@@ -47,12 +47,15 @@ const (
 	pKind
 	// wild kind
 	wKind
+)
+
+const (
 	nullString = ""
 	charSlash  = '/'
 	strSlash   = "/"
 	charColon  = ':'
-	charStar   = '*'
 	strColon   = ":"
+	charStar   = '*'
 	strStar    = "*"
 )
 

@@ -44,6 +44,7 @@ func validateRoute(method, path string, handlers HandlersChain) bool {
 
 // validatePath check URL path if it's valid
 func validatePath(path string) {
+	// TODO: remove panic
 	if path == nullString {
 		panic("path is empty")
 	}
