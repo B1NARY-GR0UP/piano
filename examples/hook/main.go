@@ -26,7 +26,7 @@ import (
 )
 
 func main() {
-	p := bin.Default(server.WithShutdownTimeout(time.Second * 3))
+	p := bin.Default(server.WithShutdownTimeout(3 * time.Second))
 	p.OnRun = append(p.OnRun, func(ctx context.Context) error {
 		core.Info("hello")
 		return nil
