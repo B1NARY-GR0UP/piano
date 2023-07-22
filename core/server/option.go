@@ -25,6 +25,7 @@ const (
 var defaultOptions = Options{
 	Addr:            defaultAddr,
 	ShutdownTimeout: defaultShutdownTimeout,
+	HideBanner:      false,
 }
 
 type Option func(o *Options)
@@ -32,6 +33,7 @@ type Option func(o *Options)
 type Options struct {
 	Addr            string
 	ShutdownTimeout time.Duration
+	HideBanner      bool
 }
 
 // NewOptions for PIANO engine
@@ -60,5 +62,11 @@ func WithHostAddr(addr string) Option {
 func WithShutdownTimeout(timeout time.Duration) Option {
 	return func(o *Options) {
 		o.ShutdownTimeout = timeout
+	}
+}
+
+func WithHideBanner() Option {
+	return func(o *Options) {
+		o.HideBanner = true
 	}
 }

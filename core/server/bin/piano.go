@@ -17,6 +17,7 @@ package bin
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -38,6 +39,9 @@ func New(opts ...server.Option) *Piano {
 	options := server.NewOptions(opts...)
 	p := &Piano{
 		Engine: server.NewEngine(options),
+	}
+	if !options.HideBanner {
+		fmt.Printf(banner, Version)
 	}
 	return p
 }
