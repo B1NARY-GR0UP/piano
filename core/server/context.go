@@ -26,6 +26,10 @@ import (
 	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 )
 
+type Handler interface {
+	ServeHTTP(ctx context.Context, pk *PianoKey)
+}
+
 // HandlerFunc is the core type of PIANO
 type HandlerFunc func(ctx context.Context, pk *PianoKey)
 

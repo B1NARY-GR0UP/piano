@@ -40,9 +40,8 @@ Refer to [piano-examples](https://github.com/rainiring/piano-examples) for more 
 
 ## Related Projects
 
-- [piano-examples](https://github.com/rainiring/piano-examples) | Examples for PIANO | `examples`
+- [PIANO-EXAMPLES](https://github.com/rainiring/piano-examples) | Examples for PIANO | `examples`
 - [DREAMEMO](https://github.com/B1NARY-GR0UP/dreamemo) | A distributed cache with out-of-the-box, high-scalability, modular-design features. | `golang` `cache` `distributed`
-- [INQUISITOR](https://github.com/B1NARY-GR0UP/inquisitor) | A simple and lightweight log. | `golang` `log`
 
 ## Blogs
 

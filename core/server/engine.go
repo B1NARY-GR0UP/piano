@@ -17,12 +17,12 @@ package server
 
 import (
 	"context"
+	"log/slog"
 	"net/http"
 	"strings"
 	"sync"
 	"sync/atomic"
 
-	"github.com/B1NARY-GR0UP/inquisitor/core"
 	"github.com/B1NARY-GR0UP/piano/pkg/bytesconv"
 	"github.com/B1NARY-GR0UP/piano/pkg/consts"
 	"github.com/B1NARY-GR0UP/piano/pkg/errors"
@@ -107,7 +107,7 @@ func (e *Engine) Run() error {
 	if err := e.executeOnRunHooks(context.Background()); err != nil {
 		return err
 	}
-	core.Infof("---PIANO--- Server is listening on address %v", e.options.Addr)
+	slog.Info("---PIANO--- Server is listening on address %v", e.options.Addr)
 	return http.ListenAndServe(e.options.Addr, e)
 }
 
@@ -123,10 +123,10 @@ func (e *Engine) Shutdown(ctx context.Context) error {
 	defer func() {
 		select {
 		case <-ctx.Done():
-			core.Errorf("---PIANO--- Execute shutdown hooks timeout: %v", ctx.Err())
+			slog.Error("---PIANO--- Execute shutdown hooks timeout: %v", ctx.Err())
 			return
 		case <-ch:
-			core.Info("---PIANO--- Execute shutdown hooks done")
+			slog.Info("---PIANO--- Execute shutdown hooks done")
 			return
 		}
 	}()
@@ -182,9 +182,9 @@ func (e *Engine) serveError(ctx context.Context, pk *PianoKey, code int, message
 func (e *Engine) addRoute(method, path string, handlers HandlersChain) {
 	isValid := validateRoute(method, path, handlers)
 	if !isValid {
-		core.Warnf("---PIANO--- Route %v is invalid", path)
+		slog.Warn("---PIANO--- Route %v is invalid", path)
 	}
-	core.Infof("---PIANO--- Register route: [%v] %v", strings.ToUpper(method), path)
+	slog.Info("---PIANO--- Register route: [%v] %v", strings.ToUpper(method), path)
 	methodTree, ok := e.forest.get(method)
 	// create a new method tree if no match in the forest
 	if !ok {

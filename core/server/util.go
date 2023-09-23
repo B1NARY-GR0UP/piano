@@ -17,9 +17,8 @@ package server
 
 import (
 	"bytes"
+	"log/slog"
 	"strings"
-
-	"github.com/B1NARY-GR0UP/inquisitor/core"
 )
 
 // M music is used to simplified code
@@ -28,15 +27,15 @@ type M map[string]any
 // validateRoute return true if the route is valid
 func validateRoute(method, path string, handlers HandlersChain) bool {
 	if method == "" {
-		core.Info("---PIANO--- HTTP method can not be empty")
+		slog.Info("---PIANO--- HTTP method can not be empty")
 		return false
 	}
 	if path[0] != '/' {
-		core.Info("---PIANO--- Path must start with '/'")
+		slog.Info("---PIANO--- Path must start with '/'")
 		return false
 	}
 	if len(handlers) < 1 {
-		core.Info("---PIANO--- There must be at least one handler")
+		slog.Info("---PIANO--- There must be at least one handler")
 		return false
 	}
 	return true
