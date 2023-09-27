@@ -73,7 +73,7 @@ func (p *Piano) Play() {
 				return errors.NewPublic(sig.String())
 			case syscall.SIGHUP, syscall.SIGINT:
 				// graceful shutdown
-				slog.Info("---PIANO--- Receive signal: %v", sig)
+				slog.Info("---PIANO--- Receive signal: ", slog.String("signal", sig.String()))
 				return nil
 			}
 		case err := <-errCh:
@@ -82,13 +82,13 @@ func (p *Piano) Play() {
 		return nil
 	}
 	if err := waitSignal(errCh); err != nil {
-		slog.Error("---PIANO--- Receive close signal error: %v", err)
+		slog.Error("---PIANO--- Receive close signal error: ", slog.String("error", err.Error()))
 		return
 	}
-	slog.Info("---PIANO--- Begin graceful shutdown, wait up to %d seconds", p.Options().ShutdownTimeout/time.Second)
+	slog.Info("---PIANO--- Begin graceful shutdown, wait up to: ", slog.Int("seconds", int(p.Options().ShutdownTimeout/time.Second)))
 	ctx, cancel := context.WithTimeout(context.Background(), p.Options().ShutdownTimeout)
 	defer cancel()
 	if err := p.Shutdown(ctx); err != nil {
-		slog.Error("---PIANO--- Shutdown err: %v", err)
+		slog.Error("---PIANO--- Shutdown err: ", slog.String("error", err.Error()))
 	}
 }

@@ -107,7 +107,7 @@ func (e *Engine) Run() error {
 	if err := e.executeOnRunHooks(context.Background()); err != nil {
 		return err
 	}
-	slog.Info("---PIANO--- Server is listening on address %v", e.options.Addr)
+	slog.Info("---PIANO--- Server is listening on address: ", slog.String("address", e.options.Addr))
 	return http.ListenAndServe(e.options.Addr, e)
 }
 
@@ -123,7 +123,7 @@ func (e *Engine) Shutdown(ctx context.Context) error {
 	defer func() {
 		select {
 		case <-ctx.Done():
-			slog.Error("---PIANO--- Execute shutdown hooks timeout: %v", ctx.Err())
+			slog.Error("---PIANO--- Execute shutdown hooks timeout: ", slog.String("error", ctx.Err().Error()))
 			return
 		case <-ch:
 			slog.Info("---PIANO--- Execute shutdown hooks done")
@@ -182,9 +182,9 @@ func (e *Engine) serveError(ctx context.Context, pk *PianoKey, code int, message
 func (e *Engine) addRoute(method, path string, handlers HandlersChain) {
 	isValid := validateRoute(method, path, handlers)
 	if !isValid {
-		slog.Warn("---PIANO--- Route %v is invalid", path)
+		slog.Warn("---PIANO--- Route is invalid", slog.String("path", path))
 	}
-	slog.Info("---PIANO--- Register route: [%v] %v", strings.ToUpper(method), path)
+	slog.Info("---PIANO--- Register route: ", slog.String("method", strings.ToUpper(method)), slog.String("path", path))
 	methodTree, ok := e.forest.get(method)
 	// create a new method tree if no match in the forest
 	if !ok {
