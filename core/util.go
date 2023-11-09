@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-package server
+package core
 
 import (
 	"bytes"

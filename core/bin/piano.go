@@ -18,26 +18,26 @@ package bin
 import (
 	"context"
 	"fmt"
+	"github.com/B1NARY-GR0UP/piano/core"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
-	"github.com/B1NARY-GR0UP/piano/core/server"
 	"github.com/B1NARY-GR0UP/piano/pkg/errors"
 )
 
 // Piano will respond to you.
 type Piano struct {
-	*server.Engine
+	*core.Engine
 }
 
 // New a pure PIANO
-func New(opts ...server.Option) *Piano {
-	options := server.NewOptions(opts...)
+func New(opts ...core.Option) *Piano {
+	options := core.NewOptions(opts...)
 	p := &Piano{
-		Engine: server.NewEngine(options),
+		Engine: core.NewEngine(options),
 	}
 	if !options.HideBanner {
 		fmt.Printf(banner, Version)
@@ -46,7 +46,7 @@ func New(opts ...server.Option) *Piano {
 }
 
 // Default will new a PIANO
-func Default(opts ...server.Option) *Piano {
+func Default(opts ...core.Option) *Piano {
 	p := New(opts...)
 	// TODO: add default middleware
 	return p

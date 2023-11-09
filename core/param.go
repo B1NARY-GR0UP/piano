@@ -13,7 +13,7 @@
 // limitations under the License.
 //
 
-package server
+package core
 
 // Param is a single URL parameter
 type Param struct {

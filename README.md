@@ -6,7 +6,7 @@
 
 ![piano](images/PIANO.png)
 
-PIANO is a simple and lightweight HTTP framework. More features will be supported gradually.
+PIANO is a simple and lightweight HTTP framework.
 
 ## Install
 
