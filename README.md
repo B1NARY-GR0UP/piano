@@ -48,6 +48,12 @@ Refer to [piano-examples](https://github.com/rainiring/piano-examples) for more 
 - [PIANO: A Simple and Lightweight HTTP Framework Implemented in Go](https://dev.to/justlorain/piano-a-simple-and-lightweight-http-framework-implemented-in-go-224p)
 - [如何使用 channel 实现一个优雅退出功能？](https://juejin.cn/post/7207423263344427068)
 
+## Acknowledgement
+
+Thanks for the IDE license support by [JetBrains OpenSource Support](https://jb.gg/OpenSourceSupport).
+
+![jb](./images/jb_beam.png)
+
 ## License
 
 PIANO is distributed under the [Apache License 2.0](./LICENSE). The licenses of third party dependencies of PIANO are explained [here](./licenses).
