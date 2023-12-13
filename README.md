@@ -52,7 +52,7 @@ Refer to [piano-examples](https://github.com/rainiring/piano-examples) for more 
 
 Thanks for the IDE license support by [JetBrains OpenSource Support](https://jb.gg/OpenSourceSupport).
 
-![jb](./images/jb_beam.png)
+<img src="./images/jb_beam.png" style="zoom:50%;"  alt="jb beam"/>
 
 ## License
 
