@@ -158,6 +158,7 @@ func (e *Engine) handleRequest(ctx context.Context, pk *PianoKey) {
 	matchedTree, ok := e.forest.get(pk.Request.Method)
 	if !ok {
 		e.serveError(ctx, pk, consts.StatusMethodNotAllowed, bytesconv.S2B(consts.BodyMethodNotAllowed))
+		return
 	}
 	path := pk.Request.URL.Path
 	validatePath(path)
@@ -166,6 +167,7 @@ func (e *Engine) handleRequest(ctx context.Context, pk *PianoKey) {
 	matchedNode := matchedTree.search(path, params)
 	if matchedNode == nil {
 		e.serveError(ctx, pk, consts.StatusNotFound, bytesconv.S2B(consts.BodyNotFound))
+		return
 	}
 	pk.SetHandlers(matchedNode.handlers)
 	pk.Next(ctx)
