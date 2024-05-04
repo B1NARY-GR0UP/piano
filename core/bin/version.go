@@ -18,7 +18,7 @@ package bin
 // BINARY-PIANO
 const (
 	Name    = "PIANO"
-	Version = "v0.1.5"
+	Version = "v0.1.6"
 )
 
 const banner = `
