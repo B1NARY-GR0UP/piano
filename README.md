@@ -1,12 +1,8 @@
-# PIANO
-
-[![Go Report Card](https://goreportcard.com/badge/github.com/B1NARY-GR0UP/piano)](https://goreportcard.com/report/github.com/B1NARY-GR0UP/piano)
-
-> Piano will respond to you.
-
 ![piano](images/PIANO.png)
 
 PIANO is a simple and lightweight HTTP framework.
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/B1NARY-GR0UP/piano)](https://goreportcard.com/report/github.com/B1NARY-GR0UP/piano)
 
 ## Install
 
